@@ -25,7 +25,7 @@ def scan_vinted():
 
             title = offer.get_text().lower()
             link = "https://www.vinted.pl" + offer["href"]
-            print("OFERTA:", title)
+            print("OFERTA LINK:", link)
             items.append({
                 "title": title,
                 "price": 0,
