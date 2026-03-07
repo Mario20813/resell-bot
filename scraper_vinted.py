@@ -1,50 +1,41 @@
 import requests
 
 def scan_vinted():
+import requests
+from bs4 import BeautifulSoup
+
+def scan_vinted():
 
     items = []
 
-    url = "https://www.vinted.pl/api/v2/catalog/items?order=newest_first&page=1&per_page=50"
+    url = "https://www.vinted.pl/catalog?order=newest_first"
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-        "Accept": "application/json",
-        "Accept-Language": "pl-PL,pl;q=0.9",
-        "Referer": "https://www.vinted.pl/",
-        "Origin": "https://www.vinted.pl"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     }
 
     try:
 
         r = requests.get(url, headers=headers, timeout=10)
 
-        print("Vinted status:", r.status_code)
+        print("Vinted HTML status:", r.status_code)
 
-        if r.status_code != 200:
-            return []
+        soup = BeautifulSoup(r.text, "html.parser")
 
-        data = r.json()
+        offers = soup.select("a[href*='/items/']")
 
-    except Exception as e:
+        for offer in offers[:30]:
 
-        print("Vinted error:", e)
-        return []
-
-    for item in data.get("items", []):
-
-        try:
-
-            title = item["title"].lower()
-            price = float(item["price"]["amount"])
-            link = "https://www.vinted.pl/items/" + str(item["id"])
+            title = offer.get_text().lower()
+            link = "https://www.vinted.pl" + offer["href"]
 
             items.append({
                 "title": title,
-                "price": price,
+                "price": 0,
                 "link": link
             })
 
-        except:
-            pass
+    except Exception as e:
+        print("Vinted error:", e)
 
     return items
