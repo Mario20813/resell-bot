@@ -25,7 +25,7 @@ while True:
 
         if not avg:
             continue
-
+        print("ilość ofert:", len(items))
         price = item["price"]
 
         discount = 1 - price/avg
