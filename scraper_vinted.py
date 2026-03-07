@@ -33,7 +33,8 @@ print("Znaleziono ofert:", len(offers))
             "price": 0,
             "link": link
         })
+    
     except Exception as e:
         print("Vinted error:", e)
 
-    return items
+return items
