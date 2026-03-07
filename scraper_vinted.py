@@ -1,7 +1,4 @@
 import requests
-
-def scan_vinted():
-import requests
 from bs4 import BeautifulSoup
 
 def scan_vinted():
@@ -17,7 +14,6 @@ def scan_vinted():
     try:
 
         r = requests.get(url, headers=headers, timeout=10)
-
         print("Vinted HTML status:", r.status_code)
 
         soup = BeautifulSoup(r.text, "html.parser")
