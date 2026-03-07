@@ -14,14 +14,14 @@ while True:
 
     print("Skanuję oferty...")
 
-items = (
-    scan_vinted()
-    + scan_olx()
-    + scan_allegro()
-    + scan_promotions()
-)
+    items = (
+        scan_vinted()
+        + scan_olx()
+        + scan_allegro()
+        + scan_promotions()
+    )
 
-print("znaleziono ofert:", len(items))
+    print("znaleziono ofert:", len(items))
     for item in items:
 
         link = item["link"]
