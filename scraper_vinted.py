@@ -1,46 +1,29 @@
 import requests
-from bs4 import BeautifulSoup
 
 def scan_vinted():
 
     items = []
 
-    url = "https://www.vinted.pl/catalog?order=newest_first"
+    url = "https://www.vinted.pl/api/v2/catalog/items?order=newest_first&page=1&per_page=50"
 
-    headers = {"User-Agent":"Mozilla/5.0"}
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
     r = requests.get(url, headers=headers)
 
-    soup = BeautifulSoup(r.text,"html.parser")
+    data = r.json()
 
-    links = soup.find_all("a", href=True)
+    for item in data["items"]:
 
-    for link in links:
+        title = item["title"].lower()
+        price = float(item["price"]["amount"])
+        link = "https://www.vinted.pl/items/" + str(item["id"])
 
-        href = link["href"]
-
-        if "/items/" not in href:
-            continue
-
-        title = link.get_text().lower()
-
-        price = None
-
-        for w in title.split():
-
-            if "zł" in w:
-
-                try:
-                    price = float(w.replace("zł","").replace(",","."))
-                except:
-                    pass
-
-        if price:
-
-            items.append({
-                "title": title,
-                "price": price,
-                "link": "https://www.vinted.pl"+href
-            })
+        items.append({
+            "title": title,
+            "price": price,
+            "link": link
+        })
 
     return items
