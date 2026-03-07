@@ -5,7 +5,21 @@ from scraper_allegro import scan_allegro
 from scraper_promotions import scan_promotions
 from price_checker import get_average_price
 from discord_alert import send_alert
-
+TARGET_PRODUCTS = [
+"iphone",
+"airpods",
+"apple watch",
+"garmin",
+"g shock",
+"casio",
+"seiko",
+"ps5",
+"nintendo switch",
+"macbook",
+"ipad",
+"sony wh",
+"bose qc"
+]
 seen = set()
 
 DISCOUNT_LIMIT = 0.25
