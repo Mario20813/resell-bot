@@ -18,9 +18,9 @@ def scan_vinted():
 
         soup = BeautifulSoup(r.text, "html.parser")
 
-      offers = soup.select("a[href^='/items/']")
+        offers = soup.select("a[href^='/items/']")
 
-print("Znaleziono ofert:", len(offers))
+        print("Znaleziono ofert:", len(offers))
 
     for offer in offers[:30]:
 
