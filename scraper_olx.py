@@ -7,42 +7,46 @@ def scan_olx():
 
     url = "https://www.olx.pl/elektronika/?search%5Border%5D=created_at:desc"
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
+    headers = {"User-Agent": "Mozilla/5.0"}
 
-    r = requests.get(url, headers=headers)
+    try:
 
-    soup = BeautifulSoup(r.text, "html.parser")
+        r = requests.get(url, headers=headers)
 
-    offers = soup.find_all("a", href=True)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    for offer in offers:
+        offers = soup.find_all("a", href=True)
 
-        href = offer["href"]
+        for offer in offers:
 
-        if "/d/oferta/" not in href:
-            continue
+            href = offer["href"]
 
-        title = offer.get_text().lower()
+            if "/d/oferta/" not in href:
+                continue
 
-        price = None
+            text = offer.get_text().lower()
 
-        for word in title.split():
+            price = None
 
-            if "zł" in word:
+            for w in text.split():
 
-                try:
-                    price = float(word.replace("zł","").replace(",","."))
-                except:
-                    pass
+                if "zł" in w:
 
-        if price:
+                    try:
+                        price = float(w.replace("zł","").replace(",","."))
+                    except:
+                        pass
 
-            items.append({
-                "title": title,
-                "price": price,
-                "link": href
-            })
+            if price:
+
+                items.append({
+                    "title": text,
+                    "price": price,
+                    "link": href
+                })
+
+    except Exception as e:
+
+        print("OLX error:", e)
 
     return items
