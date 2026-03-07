@@ -7,7 +7,7 @@ from discord_alert import send_alert
 seen = set()
 
 DISCOUNT_LIMIT = 0.5
-
+print(item)
 while True:
 
     print("Skanuję oferty...")
