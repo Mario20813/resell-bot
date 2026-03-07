@@ -1,61 +1,14 @@
 import time
 from scraper_vinted import scan_vinted
-from scraper_olx import scan_olx
-from scraper_allegro import scan_allegro
-from scraper_promotions import scan_promotions
-from price_checker import get_average_price
-from discord_alert import send_alert
-TARGET_PRODUCTS = [
-"iphone",
-"airpods",
-"apple watch",
-"garmin",
-"g shock",
-"casio",
-"seiko",
-"ps5",
-"nintendo switch",
-"macbook",
-"ipad",
-"sony wh",
-"bose qc"
-]
-seen = set()
 
-DISCOUNT_LIMIT = 0.25
+print("BOT START")
 
 while True:
 
-    print("Skanuję oferty...")
+    print("Skanuję Vinted...")
 
-    items = (
-        scan_vinted()
-        + scan_olx()
-        + scan_allegro()
-        + scan_promotions()
-    )
+    items = scan_vinted()
 
-    print("znaleziono ofert:", len(items))
-    for item in items:
+    print("Znaleziono:", len(items))
 
-        link = item["link"]
-
-        if link in seen:
-            continue
-
-        avg = get_average_price(item["title"])
-
-        if not avg:
-            continue
-       
-        price = item["price"]
-
-        discount = 1 - price/avg
-
-        if discount > DISCOUNT_LIMIT:
-
-            send_alert(item["title"], price, avg, link)
-
-        seen.add(link)
-
-    time.sleep(30)
+    time.sleep(300)
