@@ -18,20 +18,21 @@ def scan_vinted():
 
         soup = BeautifulSoup(r.text, "html.parser")
 
-        offers = soup.select("a[href*='/items/']")
-        print("Znaleziono ofert:", len(offers))
-        
-        for offer in offers[:30]:
+      offers = soup.select("a[href^='/items/']")
 
-            title = offer.get_text().lower()
-            link = "https://www.vinted.pl" + offer["href"]
-            print("OFERTA LINK:", link)
-            items.append({
-                "title": title,
-                "price": 0,
-                "link": link
-            })
+print("Znaleziono ofert:", len(offers))
 
+    for offer in offers[:30]:
+
+        link = "https://www.vinted.pl" + offer["href"]
+
+        print("OFERTA:", link)
+
+        items.append({
+            "title": "",
+            "price": 0,
+            "link": link
+        })
     except Exception as e:
         print("Vinted error:", e)
 
