@@ -23,7 +23,7 @@ def scan_vinted():
 
     except Exception as e:
 
-        print("Błąd pobierania Vinted:", e)
+        print("Błąd Vinted:", e)
         return []
 
     for item in data.get("items", []):
