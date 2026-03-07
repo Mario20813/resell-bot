@@ -19,12 +19,13 @@ def scan_vinted():
         soup = BeautifulSoup(r.text, "html.parser")
 
         offers = soup.select("a[href*='/items/']")
-
+        print("Znaleziono ofert:", len(offers))
+        
         for offer in offers[:30]:
 
             title = offer.get_text().lower()
             link = "https://www.vinted.pl" + offer["href"]
-
+          print("OFERTA:", title)
             items.append({
                 "title": title,
                 "price": 0,
