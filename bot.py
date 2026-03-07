@@ -1,6 +1,8 @@
 import time
-from scraper_olx import scan_olx
 from scraper_vinted import scan_vinted
+from scraper_olx import scan_olx
+from scraper_allegro import scan_allegro
+from scraper_promotions import scan_promotions
 from price_checker import get_average_price
 from discord_alert import send_alert
 
@@ -12,8 +14,14 @@ while True:
 
     print("Skanuję oferty...")
 
-    items = scan_vinted() + scan_olx()
-    print("znaleziono ofert:", len(items))
+items = (
+    scan_vinted()
+    + scan_olx()
+    + scan_allegro()
+    + scan_promotions()
+)
+
+print("znaleziono ofert:", len(items))
     for item in items:
 
         link = item["link"]
