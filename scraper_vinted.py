@@ -5,22 +5,21 @@ def scan_vinted():
 
     items = []
 
-    url = "https://www.vinted.pl/catalog?order=newest_first"
+    url = "https://www.vinted.pl/catalog?search_text=nike&order=newest_first"
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        "User-Agent": "Mozilla/5.0"
     }
 
-    try:
+    r = requests.get(url, headers=headers)
 
-        r = requests.get(url, headers=headers, timeout=10)
-        print("Vinted HTML status:", r.status_code)
+    print("Vinted HTML status:", r.status_code)
 
-        soup = BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(r.text, "html.parser")
 
-        offers = soup.select("a[href^='/items/']")
+    offers = soup.select("a[href^='/items/']")
 
-        print("Znaleziono ofert:", len(offers))
+    print("Znaleziono ofert:", len(offers))
 
     for offer in offers[:30]:
 
@@ -33,8 +32,5 @@ def scan_vinted():
             "price": 0,
             "link": link
         })
-    
-    except Exception as e:
-        print("Vinted error:", e)
 
-return items
+    return items
