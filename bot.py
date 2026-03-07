@@ -6,7 +6,7 @@ from discord_alert import send_alert
 
 seen = set()
 
-DISCOUNT_LIMIT = 0.3
+DISCOUNT_LIMIT = 0.25
 
 while True:
 
